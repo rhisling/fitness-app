@@ -1,70 +1,55 @@
 const path = require('path');
 const webpack = require('webpack');
 const typescript = require('typescript');
-const { AotPlugin } = require('@ngtools/webpack');
+const { AngularCompilerPlugin } = require('@ngtools/webpack');
 
 const rules = [
   { test: /\.html$/, loader: 'html-loader' },
-  { test: /\.scss$/, loaders: ['raw-loader', 'sass-loader'] },
+  {
+    test: /\.scss$/,
+    loaders: ['to-string-loader', 'raw-loader', 'sass-loader']
+  },
   { test: /\.(jpe?g|png|gif|svg)$/i, loader: 'file-loader' }
 ];
 
 const plugins = [
   new webpack.DefinePlugin({
     'process.env': {
-      'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+      NODE_ENV: JSON.stringify(process.env.NODE_ENV)
     }
-  }),
-  new webpack.optimize.CommonsChunkPlugin({
-    name: 'vendor',
-    minChunks: (module) => module.context && /node_modules/.test(module.context)
   })
 ];
 
 if (process.env.NODE_ENV === 'production') {
   rules.push({
-    test: /\.ts$/, loaders: ['@ngtools/webpack']
+    test: /\.ts$/,
+    loaders: ['@ngtools/webpack']
   });
   plugins.push(
-    new AotPlugin({
+    new AngularCompilerPlugin({
       tsConfigPath: './tsconfig.json',
       entryModule: 'src/app/app.module#AppModule'
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true,
-      beautify: false,
-      mangle: {
-        screw_ie8: true
-      },
-      compress: {
-        unused: true,
-        dead_code: true,
-        drop_debugger: true,
-        conditionals: true,
-        evaluate: true,
-        drop_console: true,
-        sequences: true,
-        booleans: true,
-        screw_ie8: true,
-        warnings: false
-      },
-      comments: false
     })
   );
 } else {
   rules.push({
     test: /\.ts$/,
     loaders: [
-      'awesome-typescript-loader', 'angular-router-loader', 'angular2-template-loader'
+      'awesome-typescript-loader',
+      'angular-router-loader',
+      'angular2-template-loader'
     ]
   });
   plugins.push(
     new webpack.NamedModulesPlugin(),
-    new webpack.ContextReplacementPlugin(/angular(\\|\/)core(\\|\/)@angular/, path.resolve(__dirname, './notfound'))
+    new webpack.ContextReplacementPlugin(
+      /angular(\\|\/)core(\\|\/)@angular/,
+      path.resolve(__dirname, './notfound')
+    )
   );
 }
 
@@ -88,7 +73,7 @@ module.exports = {
     publicPath: '/build/',
     port: 3000
   },
-  devtool: 'sourcemap',
+  devtool: process.env.NODE_ENV === 'production' ? 'sourcemap' : false,
   entry: {
     app: ['zone.js/dist/zone', './src/main.ts']
   },
@@ -110,10 +95,11 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.js'],
-    modules: [
-      'src',
-      'node_modules'
-    ]
+    modules: ['src', 'node_modules']
+  },
+  performance: {
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
   },
   plugins
 };

@@ -30,3 +30,6 @@ vendor/*-manifest.json
 
 # Docs
 gh-pages
+
+#firebase
+.firebase/

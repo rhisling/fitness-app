@@ -22,6 +22,7 @@
     "angular2-template-loader": "0.6.2",
     "awesome-typescript-loader": "5.2.1",
     "cross-env": "^6.0.3",
+    "css-loader": "^3.2.0",
     "file-loader": "4.2.0",
     "html-loader": "0.5.5",
     "jasmine-core": "3.5.0",
@@ -35,6 +36,7 @@
     "raw-loader": "3.1.0",
     "rimraf": "3.0.0",
     "sass-loader": "8.0.0",
+    "style-loader": "^1.0.0",
     "to-string-loader": "^1.1.5",
     "typescript": "~3.4.5",
     "webpack": "^4.41.2"

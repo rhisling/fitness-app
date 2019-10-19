@@ -1,15 +1,23 @@
 const path = require('path');
 const webpack = require('webpack');
 const typescript = require('typescript');
-const { AngularCompilerPlugin } = require('@ngtools/webpack');
+const {AngularCompilerPlugin} = require('@ngtools/webpack');
 
 const rules = [
-  { test: /\.html$/, loader: 'html-loader' },
+  {test: /\.html$/, loader: 'html-loader'},
   {
-    test: /\.scss$/,
-    loaders: ['to-string-loader', 'raw-loader', 'sass-loader']
+    test: /\.s[ac]ss$/i,
+    use: [
+      // Creates `style` nodes from JS strings
+      'to-string-loader',
+      'style-loader',
+      // Translates CSS into CommonJS
+      'css-loader',
+      // Compiles Sass to CSS
+      'sass-loader',
+    ]
   },
-  { test: /\.(jpe?g|png|gif|svg)$/i, loader: 'file-loader' }
+  {test: /\.(jpe?g|png|gif|svg)$/i, loader: 'file-loader'}
 ];
 
 const plugins = [
@@ -73,7 +81,7 @@ module.exports = {
     publicPath: '/build/',
     port: 3000
   },
-  devtool: process.env.NODE_ENV === 'production' ? 'sourcemap' : false,
+  devtool: 'sourcemap',
   entry: {
     app: ['zone.js/dist/zone', './src/main.ts']
   },

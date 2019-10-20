@@ -6,6 +6,7 @@ import { Store } from "store";
 
 // feature modules
 import { AuthModule } from "../auth/auth.module";
+import { HealthModule } from "../health/health.module";
 
 // containers
 import { AppComponent } from "./containers/app/app.component";
@@ -18,7 +19,7 @@ import { AppHeaderComponent } from "./components/app-header/app-header.component
 export const ROUTES: Routes = [];
 
 @NgModule({
-  imports: [BrowserModule, RouterModule.forRoot(ROUTES), AuthModule],
+  imports: [BrowserModule, RouterModule.forRoot(ROUTES), AuthModule, HealthModule],
   declarations: [AppComponent, AppNavComponent, AppHeaderComponent],
   providers: [Store],
   bootstrap: [AppComponent]

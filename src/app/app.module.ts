@@ -16,10 +16,17 @@ import { AppNavComponent } from "./components/app-nav/app-nav.component";
 import { AppHeaderComponent } from "./components/app-header/app-header.component";
 
 // routes
-export const ROUTES: Routes = [];
+export const ROUTES: Routes = [
+  { path: "", pathMatch: "full", redirectTo: "schedule" }
+];
 
 @NgModule({
-  imports: [BrowserModule, RouterModule.forRoot(ROUTES), AuthModule, HealthModule],
+  imports: [
+    BrowserModule,
+    RouterModule.forRoot(ROUTES),
+    AuthModule,
+    HealthModule
+  ],
   declarations: [AppComponent, AppNavComponent, AppHeaderComponent],
   providers: [Store],
   bootstrap: [AppComponent]

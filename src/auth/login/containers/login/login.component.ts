@@ -1,11 +1,11 @@
-import { Component } from "@angular/core";
-import { FormGroup } from "@angular/forms";
+import { Component } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
-import { AuthService } from "../../../shared/services/auth/auth.service";
-import { Router } from "@angular/router";
+import { AuthService } from '../../../shared/services/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: "login",
+  selector: 'login',
   template: `
     <div>
       <auth-form (submitted)="loginUser($event)">

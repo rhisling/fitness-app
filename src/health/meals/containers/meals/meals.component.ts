@@ -5,6 +5,7 @@ import {
 } from "../../../shared/services/meals/meals.service";
 import { Observable, Subscription } from "rxjs";
 import { Store } from "store";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: "meals",

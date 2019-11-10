@@ -3,8 +3,8 @@ import { AngularFireDatabase } from "@angular/fire/database";
 
 import { Store } from "store";
 import { AuthService } from "../../../../auth/shared/services/auth/auth.service";
-import { Observable } from "rxjs";
-import { tap, map } from "rxjs/operators";
+import { Observable, of } from "rxjs";
+import { tap, map, filter } from "rxjs/operators";
 
 export interface Meal {
   name: string;
@@ -21,8 +21,15 @@ export class MealsService {
     .snapshotChanges()
     .pipe(
       tap(next =>
-       this.store.set("meals",next.map(n => ({...n.payload.val(), $key: n.payload.key, $exists: n.payload.exists})))
+        this.store.set(
+          "meals",
+          next.map(n => ({
+            ...n.payload.val(),
+            $key: n.payload.key,
+            $exists: n.payload.exists
+          }))
         )
+      )
     );
 
   constructor(
@@ -40,7 +47,22 @@ export class MealsService {
     return this.db.list(`meals/${this.uid}`).push(meal);
   }
 
-  removeMeal(key: string){
+  removeMeal(key: string) {
     return this.db.list(`meals/${this.uid}`).remove(key);
   }
+
+  updateMeal(key: string, meal: Meal){
+    return this.db.object(`meals/${this.uid}/${key}`).update(meal);
+  }
+
+  getMeal(key: string) {
+    if (!key) return of({});
+    return this.store.select<Meal[]>("meals").pipe(
+      map(meals => {
+        return meals.find(meal => meal.$key === key);
+      })
+    );
+  }
+
+
 }

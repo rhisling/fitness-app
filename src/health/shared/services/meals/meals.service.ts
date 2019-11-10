@@ -4,7 +4,7 @@ import { AngularFireDatabase } from "@angular/fire/database";
 import { Store } from "store";
 import { AuthService } from "../../../../auth/shared/services/auth/auth.service";
 import { Observable } from "rxjs";
-import { tap } from "rxjs/operators";
+import { tap, map } from "rxjs/operators";
 
 export interface Meal {
   name: string;
@@ -16,10 +16,14 @@ export interface Meal {
 
 @Injectable()
 export class MealsService {
-  meals$: Observable<{}[]> = this.db
+  meals$: Observable<any[]> = this.db
     .list(`meals/${this.uid}`)
-    .valueChanges()
-    .pipe(tap(next => this.store.set("meals", next)));
+    .snapshotChanges()
+    .pipe(
+      tap(next =>
+       this.store.set("meals",next.map(n => ({...n.payload.val(), $key: n.payload.key, $exists: n.payload.exists})))
+        )
+    );
 
   constructor(
     private store: Store,
@@ -31,8 +35,12 @@ export class MealsService {
     return this.authService.user.uid;
   }
 
-  addMeal(meal: Meal){
+  addMeal(meal: Meal) {
     console.log(meal);
-    return this.db.list(`meals/${this.uid}`).push(meal)
+    return this.db.list(`meals/${this.uid}`).push(meal);
+  }
+
+  removeMeal(key: string){
+    return this.db.list(`meals/${this.uid}`).remove(key);
   }
 }

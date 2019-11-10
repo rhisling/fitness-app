@@ -26,9 +26,13 @@ import { Store } from "store";
           <img src="/img/face.svg" alt="" />
           No meals, add a new meal to start
         </div>
-          <list-item *ngFor="let meal of meals" [item]="meal">
-              
-          </list-item>
+        <list-item
+          *ngFor="let meal of meals"
+          [item]="meal"
+          (remove)="removeMeal($event)"
+        >
+        </list-item>
+        <!--          {{ meals | json}}-->
       </div>
       <ng-template #loading>
         <div class="message">
@@ -46,11 +50,15 @@ export class MealsComponent implements OnInit, OnDestroy {
   constructor(private store: Store, private mealsService: MealsService) {}
 
   ngOnInit() {
-    this.meals$ = this.store.select<Meal[]>("meals");
     this.subscription = this.mealsService.meals$.subscribe();
+    this.meals$ = this.store.select<Meal[]>("meals");
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  removeMeal(event: Meal) {
+   this.mealsService.removeMeal(event.$key)
   }
 }

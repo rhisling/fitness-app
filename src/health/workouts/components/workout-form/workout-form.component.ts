@@ -37,7 +37,6 @@ import {
           </label>
           <label for="">
             <h3>Type</h3>
-            <p>{{ form.value | json }}</p>
             <workout-type formControlName="type"> </workout-type>
           </label>
         </div>

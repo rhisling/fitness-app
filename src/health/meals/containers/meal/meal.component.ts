@@ -64,7 +64,7 @@ export class MealComponent implements OnInit, OnDestroy {
 
   async addMeal(event: Meal) {
     await this.mealsService.addMeal(event);
-    console.log("meal added");
+    console.log("workout added");
     this.backToMeals();
   }
 

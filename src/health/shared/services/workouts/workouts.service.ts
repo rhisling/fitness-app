@@ -44,20 +44,20 @@ export class WorkoutsService {
     return this.authService.user.uid;
   }
 
-  addMeal(workout: Workout) {
+  addWorkout(workout: Workout) {
     console.log(workout);
     return this.db.list(`workouts/${this.uid}`).push(workout);
   }
 
-  removeMeal(key: string) {
+  removeWorkout(key: string) {
     return this.db.list(`workouts/${this.uid}`).remove(key);
   }
 
-  updateMeal(key: string, workout: Workout){
+  updateWorkout(key: string, workout: Workout){
     return this.db.object(`workouts/${this.uid}/${key}`).update(workout);
   }
 
-  getMeal(key: string) {
+  getWorkout(key: string) {
     if (!key) return of({});
     return this.store.select<Workout[]>("workouts").pipe(
       map(workouts => {

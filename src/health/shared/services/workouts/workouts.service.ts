@@ -53,18 +53,18 @@ export class WorkoutsService {
     return this.db.list(`workouts/${this.uid}`).remove(key);
   }
 
-  updateWorkout(key: string, workout: Workout){
+  updateWorkout(key: string, workout: Workout) {
     return this.db.object(`workouts/${this.uid}/${key}`).update(workout);
   }
 
   getWorkout(key: string) {
     if (!key) return of({});
     return this.store.select<Workout[]>("workouts").pipe(
+      tap((next)=>console.log("In-tap:"+JSON.stringify(next))),
+      filter(Boolean),
       map(workouts => {
-        return workouts.find(meal => meal.$key === key);
+        return workouts.find((workout: Workout) => workout.$key === key);
       })
     );
   }
-
-
 }

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { Store } from "store";
-import { map, tap, switchMap } from "rxjs/operators";
+import { map, tap, switchMap, withLatestFrom } from "rxjs/operators";
 import { Meal } from "../meals/meals.service";
 import { Workout } from "../workouts/workouts.service";
 import { AngularFireDatabase } from "@angular/fire/database";
@@ -26,6 +26,37 @@ export interface ScheduleList {
 @Injectable()
 export class ScheduleService {
   private date$ = new BehaviorSubject(new Date());
+  private section$ = new Subject();
+  private itemList$ = new Subject();
+
+  items$ = this.itemList$.pipe(
+    withLatestFrom(this.section$),
+    map(([items, section]: any[]) => {
+      const id = section.data.$key;
+      const defaults: ScheduleItem = {
+        workouts: null,
+        meals: null,
+        section: section.section,
+        timestamp: new Date(section.day).getTime()
+      };
+      const payload = {
+        ...(id ? section.data : defaults),
+        ...items
+      };
+      if (id) {
+        return this.updateSection(id, payload);
+      } else {
+        return this.createSection(payload);
+      }
+    })
+  );
+
+  selected$ = this.section$.pipe(tap(next => this.store.set("selected", next)));
+
+  list$ = this.section$.pipe(
+    map((value: any) => this.store.value[value.type]),
+    tap(next => this.store.set("list", next))
+  );
 
   schedule$: Observable<ScheduleList> = this.date$.pipe(
     tap(next => {
@@ -39,8 +70,11 @@ export class ScheduleService {
         day.getDate()
       ).getTime();
       const endAt =
-        new Date(day.getFullYear(), day.getMonth(), day.getDate()+ 1).getTime() -
-        1;
+        new Date(
+          day.getFullYear(),
+          day.getMonth(),
+          day.getDate() + 1
+        ).getTime() - 1;
       console.log(`startAt: ${startAt} - endAt:${endAt}`);
       return { startAt, endAt };
     }),
@@ -68,6 +102,10 @@ export class ScheduleService {
     this.date$.next(date);
   }
 
+  selectSection(event: any) {
+    this.section$.next(event);
+  }
+
   get uid() {
     return this.authService.user.uid;
   }
@@ -81,5 +119,17 @@ export class ScheduleService {
           .endAt(endAt)
       )
       .valueChanges();
+  }
+
+  updateItems(items: string[]) {
+    this.itemList$.next(items);
+  }
+
+  private updateSection(key: string, payload: ScheduleItem) {
+    return this.db.object(`schedule/${this.uid}/${key}`).update(payload);
+  }
+
+  private createSection(payload: string) {
+    return this.db.list(`schedule/${this.uid}`).push(payload);
   }
 }

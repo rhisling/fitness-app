@@ -3,13 +3,13 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output
-} from "@angular/core";
+  Output,
+} from '@angular/core';
 
 @Component({
-  selector: "schedule-days",
+  selector: 'schedule-days',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ["schedule-days.component.scss"],
+  styleUrls: ['schedule-days.component.scss'],
   template: `
     <div class="days"></div>
     <button
@@ -22,10 +22,10 @@ import {
         {{ day }}
       </span>
     </button>
-  `
+  `,
 })
 export class ScheduleDaysComponent {
-  days = ["M", "T", "W", "T", "F", "S", "S"];
+  days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
   @Input()
   selected: number;

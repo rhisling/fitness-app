@@ -1,23 +1,23 @@
-import { NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
-import { Routes, RouterModule } from "@angular/router";
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { Routes, RouterModule } from '@angular/router';
 
-import { Store } from "store";
+import { Store } from 'store';
 
 // feature modules
-import { AuthModule } from "../auth/auth.module";
-import { HealthModule } from "../health/health.module";
+import { AuthModule } from '../auth/auth.module';
+import { HealthModule } from '../health/health.module';
 
 // containers
-import { AppComponent } from "./containers/app/app.component";
+import { AppComponent } from './containers/app/app.component';
 
 // components
-import { AppNavComponent } from "./components/app-nav/app-nav.component";
-import { AppHeaderComponent } from "./components/app-header/app-header.component";
+import { AppNavComponent } from './components/app-nav/app-nav.component';
+import { AppHeaderComponent } from './components/app-header/app-header.component';
 
 // routes
 export const ROUTES: Routes = [
-  { path: "", pathMatch: "full", redirectTo: "schedule" }
+  { path: '', pathMatch: 'full', redirectTo: 'schedule' },
 ];
 
 @NgModule({
@@ -25,10 +25,10 @@ export const ROUTES: Routes = [
     BrowserModule,
     RouterModule.forRoot(ROUTES),
     AuthModule,
-    HealthModule
+    HealthModule,
   ],
   declarations: [AppComponent, AppNavComponent, AppHeaderComponent],
   providers: [Store],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

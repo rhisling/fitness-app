@@ -3,24 +3,24 @@ import {
   Input,
   Output,
   EventEmitter,
-  ChangeDetectionStrategy
-} from "@angular/core";
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 @Component({
-  selector: "schedule-controls",
+  selector: 'schedule-controls',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ["schedule-controls.component.scss"],
+  styleUrls: ['schedule-controls.component.scss'],
   template: `
     <div class="controls">
       <button type="button" (click)="moveDate(offset - 1)">
-        <img src="/img/chevron-left.svg" />
+        <img src="./assets/img/chevron-left.svg" />
       </button>
-      <p>{{ selected | date: "longDate" }}</p>
+      <p>{{ selected | date: 'longDate' }}</p>
       <button type="button" (click)="moveDate(offset + 1)">
-        <img src="/img/chevron-right.svg" />
+        <img src="./assets/img/chevron-right.svg" />
       </button>
     </div>
-  `
+  `,
 })
 export class ScheduleControlsComponent {
   offset = 0;

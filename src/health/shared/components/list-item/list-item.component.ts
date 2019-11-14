@@ -3,14 +3,14 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output
-} from "@angular/core";
-import { Meal } from "../../services/meals/meals.service";
+  Output,
+} from '@angular/core';
+import { Meal } from '../../services/meals/meals.service';
 
 @Component({
-  selector: "list-item",
+  selector: 'list-item',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ["list-item.component.scss"],
+  styleUrls: ['list-item.component.scss'],
   template: `
     <div class="list-item">
       <a [routerLink]="getRoute(item)">
@@ -34,10 +34,10 @@ import { Meal } from "../../services/meals/meals.service";
         <button type="button" class="cancel" (click)="toggle()">No</button>
       </div>
       <button class="trash" type="button" (click)="toggle()">
-        <img src="/img/remove.svg" />
+        <img src="./assets/img/remove.svg" />
       </button>
     </div>
-  `
+  `,
 })
 export class ListItemComponent {
   @Input()
@@ -51,7 +51,7 @@ export class ListItemComponent {
   constructor() {}
 
   getRoute(item: any) {
-    return [`../${item.ingredients ? "meals" : "workouts"}`, item.$key];
+    return [`../${item.ingredients ? 'meals' : 'workouts'}`, item.$key];
   }
 
   removeItem() {

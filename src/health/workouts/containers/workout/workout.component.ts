@@ -1,22 +1,22 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   Workout,
-  WorkoutsService
-} from "../../../shared/services/workouts/workouts.service";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Observable, Subscription } from "rxjs";
-import { switchMap } from "rxjs/operators";
+  WorkoutsService,
+} from '../../../shared/services/workouts/workouts.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
-  selector: "workout",
-  styleUrls: ["workout.component.scss"],
+  selector: 'workout',
+  styleUrls: ['workout.component.scss'],
   template: `
     <div class="workout">
       <div class="workout__title">
         <h1>
-          <img src="/img/workout.svg" alt="" />
+          <img src="./assets/img/workout.svg" alt="" />
           <span *ngIf="workout$ | async as workout; else title"
-            >{{ workout.name ? "Edit" : "Create" }} workout</span
+            >{{ workout.name ? 'Edit' : 'Create' }} workout</span
           >
           <ng-template #title>
             Loading ...
@@ -34,11 +34,11 @@ import { switchMap } from "rxjs/operators";
       <ng-template #loading>
         <div class="message">
           <img src="/img/loading.svg" alt="" />
-            Fetching workout...
+          Fetching workout...
         </div>
       </ng-template>
     </div>
-  `
+  `,
 })
 export class WorkoutComponent implements OnInit, OnDestroy {
   workout$: Observable<void | {}>;
@@ -65,12 +65,12 @@ export class WorkoutComponent implements OnInit, OnDestroy {
 
   async addWorkout(event: Workout) {
     await this.workoutsService.addWorkout(event);
-    console.log("workout added");
+    console.log('workout added');
     this.backToWorkouts();
   }
 
   private backToWorkouts() {
-    this.router.navigate(["workouts"]);
+    this.router.navigate(['workouts']);
   }
 
   async updateWorkout(event: Workout) {

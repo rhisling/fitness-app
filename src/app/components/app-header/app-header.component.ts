@@ -3,24 +3,24 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output
-} from "@angular/core";
-import { User } from "../../../auth/shared/services/auth/auth.service";
+  Output,
+} from '@angular/core';
+import { User } from '../../../auth/shared/services/auth/auth.service';
 
 @Component({
-  selector: "app-header",
+  selector: 'app-header',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ["app-header.component.scss"],
+  styleUrls: ['app-header.component.scss'],
   template: `
     <div class="app-header">
       <div class="wrapper">
-        <img src="/img/logo.svg" alt="" />
+        <img src="./assets/img/logo.svg" alt="" />
         <div class="app-header__user-info" *ngIf="user?.authenticated">
           <span (click)="logoutUser()"></span>
         </div>
       </div>
     </div>
-  `
+  `,
 })
 export class AppHeaderComponent {
   @Input()

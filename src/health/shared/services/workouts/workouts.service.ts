@@ -60,9 +60,9 @@ export class WorkoutsService {
   getWorkout(key: string) {
     if (!key) return of({});
     return this.store.select<Workout[]>("workouts").pipe(
-      tap((next)=>console.log("In-tap:"+JSON.stringify(next))),
+      tap(next => console.log("In-tap:" + JSON.stringify(next))),
       filter(Boolean),
-      map(workouts => {
+      map((workouts: Workout[]) => {
         return workouts.find((workout: Workout) => workout.$key === key);
       })
     );

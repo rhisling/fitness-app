@@ -4,35 +4,35 @@ import {
   EventEmitter,
   Input,
   OnInit,
-  Output
-} from "@angular/core";
-import { Workout } from "../../../shared/services/workouts/workouts.service";
-import { Meal } from "../../../shared/services/meals/meals.service";
+  Output,
+} from '@angular/core';
+import { Workout } from '../../../shared/services/workouts/workouts.service';
+import { Meal } from '../../../shared/services/meals/meals.service';
 
 @Component({
-  selector: "schedule-assign",
+  selector: 'schedule-assign',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ["schedule-assign.component.scss"],
+  styleUrls: ['schedule-assign.component.scss'],
   template: `
     <div class="schedule-assign">
       <div class="schedule-assign__modal">
         <div class="schedule-assign__title">
           <h1>
             <img
-              src="/img/{{
+              src="./assets/img/{{
                 section.type === 'workouts' ? 'workout' : 'food'
               }}.svg"
             />
             Assign {{ section.type }}
           </h1>
           <a class="btn__add" [routerLink]="getRoute(section.type)">
-            <img src="/img/add-white.svg" alt="" />
+            <img src="./assets/img/add-white.svg" alt="" />
             New {{ section.type }}
           </a>
         </div>
         <div class="schedule-assign__list">
           <span class="schedule-assign__empty" *ngIf="!list?.length">
-            <img src="/img/face.svg" />
+            <img src="./assets/img/face.svg" />
             Nothing here to assign
           </span>
           <div
@@ -60,7 +60,7 @@ import { Meal } from "../../../shared/services/meals/meals.service";
         </div>
       </div>
     </div>
-  `
+  `,
 })
 export class ScheduleAssignComponent implements OnInit {
   private selected: string[] = [];
@@ -91,7 +91,7 @@ export class ScheduleAssignComponent implements OnInit {
 
   updateAssign() {
     this.update.emit({
-      [this.section.type]: this.selected
+      [this.section.type]: this.selected,
     });
   }
 

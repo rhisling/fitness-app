@@ -1,16 +1,17 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from "@angular/core";
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 
-import { Observable } from "rxjs";
-import { Subscription } from "rxjs";
+import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 
-import { Store } from "store";
+import { Store } from 'store';
 
-import { AuthService } from "../../../auth/shared/services/auth/auth.service";
-import { User } from "firebase";
-import { Router } from "@angular/router";
+import { AuthService } from '../../../auth/shared/services/auth/auth.service';
+import { User } from 'firebase';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: "app-root",
+  selector: 'app-root',
+  styleUrls: ['app.component.scss'],
   template: `
     <div>
       <app-header [user]="user$ | async" (logout)="onLogout()"></app-header>
@@ -20,7 +21,7 @@ import { Router } from "@angular/router";
       </div>
     </div>
   `,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent implements OnInit, OnDestroy {
   user$: Observable<User>;
@@ -34,7 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.authService.auth$.subscribe();
-    this.user$ = this.store.select<User>("user");
+    this.user$ = this.store.select<User>('user');
   }
 
   ngOnDestroy() {
@@ -42,8 +43,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   async onLogout() {
-    console.log("Logout ...");
+    console.log('Logout ...');
     await this.authService.logoutUser();
-    this.router.navigate(["/auth/login"]);
+    this.router.navigate(['/auth/login']);
   }
 }

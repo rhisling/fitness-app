@@ -5,21 +5,21 @@ import {
   Input,
   OnChanges,
   Output,
-  SimpleChanges
-} from "@angular/core";
-import { Meal } from "../../../shared/services/meals/meals.service";
+  SimpleChanges,
+} from '@angular/core';
+import { Meal } from '../../../shared/services/meals/meals.service';
 import {
   FormArray,
   FormBuilder,
   FormControl,
   FormControlName,
-  Validators
-} from "@angular/forms";
+  Validators,
+} from '@angular/forms';
 
 @Component({
-  selector: "meal-form",
+  selector: 'meal-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ["meal-form.component.scss"],
+  styleUrls: ['meal-form.component.scss'],
   template: `
     <div class="meal-form">
       <form [formGroup]="form">
@@ -58,10 +58,20 @@ import {
         </div>
         <div class="meal-form__submit">
           <div>
-            <button type="button"  *ngIf="!exists" class="button" (click)="createMeal()">
+            <button
+              type="button"
+              *ngIf="!exists"
+              class="button"
+              (click)="createMeal()"
+            >
               Create meal
-            </button> 
-              <button type="button" *ngIf="exists" class="button" (click)="updateMeal()">
+            </button>
+            <button
+              type="button"
+              *ngIf="exists"
+              class="button"
+              (click)="updateMeal()"
+            >
               Save
             </button>
             <a class="button button--cancel" [routerLink]="['../']">Cancel</a>
@@ -87,7 +97,7 @@ import {
         </div>
       </form>
     </div>
-  `
+  `,
 })
 export class MealFormComponent implements OnChanges {
   toggled = false;
@@ -121,25 +131,25 @@ export class MealFormComponent implements OnChanges {
   }
 
   form = this.fb.group({
-    name: ["", Validators.required],
-    ingredients: this.fb.array([""])
+    name: ['', Validators.required],
+    ingredients: this.fb.array(['']),
   });
 
   constructor(private fb: FormBuilder) {}
 
   get ingredients() {
-    return this.form.get("ingredients") as FormArray;
+    return this.form.get('ingredients') as FormArray;
   }
 
   get required() {
     return (
-      this.form.get("name").hasError("required") &&
-      this.form.get("name").touched
+      this.form.get('name').hasError('required') &&
+      this.form.get('name').touched
     );
   }
 
   addIngredient() {
-    this.ingredients.push(new FormControl(""));
+    this.ingredients.push(new FormControl(''));
   }
 
   createMeal() {
@@ -155,7 +165,7 @@ export class MealFormComponent implements OnChanges {
   }
 
   removeMeal() {
-      this.remove.emit(this.form.value);
+    this.remove.emit(this.form.value);
   }
 
   removeIngredients(index: number) {
@@ -165,7 +175,6 @@ export class MealFormComponent implements OnChanges {
   toggle() {
     this.toggled = !this.toggled;
   }
-
 
   private emptyIngredients() {
     while (this.ingredients.controls.length) {

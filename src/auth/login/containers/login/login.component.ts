@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
         <div class="error" *ngIf="error">{{ error }}</div>
       </auth-form>
     </div>
-  `
+  `,
 })
 export class LoginComponent {
   error: string;

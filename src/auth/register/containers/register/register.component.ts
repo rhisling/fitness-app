@@ -1,10 +1,10 @@
-import { Component, OnInit } from "@angular/core";
-import { FormGroup } from "@angular/forms";
-import { AuthService } from "../../../shared/services/auth/auth.service";
-import { Router } from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { AuthService } from '../../../shared/services/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: "register",
+  selector: 'register',
   template: `
     <div>
       <auth-form (submitted)="registerUser($event)">
@@ -14,7 +14,7 @@ import { Router } from "@angular/router";
         <div class="error" *ngIf="error">{{ error }}</div>
       </auth-form>
     </div>
-  `
+  `,
 })
 export class RegisterComponent implements OnInit {
   error: string;
@@ -27,7 +27,7 @@ export class RegisterComponent implements OnInit {
     const { email, password } = event.value;
     try {
       await this.authService.createUser(email, password);
-      this.router.navigate(["/"]);
+      this.router.navigate(['/']);
     } catch (err) {
       this.error = err.message;
     }

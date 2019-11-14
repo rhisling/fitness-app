@@ -1,9 +1,9 @@
-import {ChangeDetectionStrategy, Component} from "@angular/core";
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 
 @Component({
-  selector: "app-nav",
+  selector: 'app-nav',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ["app-nav.component.scss"],
+  styleUrls: ['app-nav.component.scss'],
   template: `
     <div class="app-nav">
       <div class="wrapper">

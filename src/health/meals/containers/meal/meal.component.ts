@@ -1,22 +1,22 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   Meal,
-  MealsService
-} from "../../../shared/services/meals/meals.service";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Observable, Subscription } from "rxjs";
-import { switchMap } from "rxjs/operators";
+  MealsService,
+} from '../../../shared/services/meals/meals.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
-  selector: "meal",
-  styleUrls: ["meal.component.scss"],
+  selector: 'meal',
+  styleUrls: ['meal.component.scss'],
   template: `
     <div class="meal">
       <div class="meal__title">
         <h1>
-          <img src="/img/food.svg" alt="" />
+          <img src="/assets/food.svg" alt="" />
           <span *ngIf="meal$ | async as meal; else title"
-            >{{ meal.name ? "Edit" : "Create" }} meal</span
+            >{{ meal.name ? 'Edit' : 'Create' }} meal</span
           >
           <ng-template #title>
             Loading ...
@@ -33,11 +33,11 @@ import { switchMap } from "rxjs/operators";
       </div>
       <ng-template #loading>
         <div class="message">
-          <img src="/img/loading.svg" alt="" />
+          <img src="./img/loading.svg" alt="" />
         </div>
       </ng-template>
     </div>
-  `
+  `,
 })
 export class MealComponent implements OnInit, OnDestroy {
   meal$: Observable<void | {}>;
@@ -64,12 +64,12 @@ export class MealComponent implements OnInit, OnDestroy {
 
   async addMeal(event: Meal) {
     await this.mealsService.addMeal(event);
-    console.log("workout added");
+    console.log('workout added');
     this.backToMeals();
   }
 
   private backToMeals() {
-    this.router.navigate(["meals"]);
+    this.router.navigate(['meals']);
   }
 
   async updateMeal(event: Meal) {

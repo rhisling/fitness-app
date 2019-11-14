@@ -3,17 +3,17 @@ import {
   OnChanges,
   Input,
   Output,
-  EventEmitter
-} from "@angular/core";
+  EventEmitter,
+} from '@angular/core';
 
 import {
   ScheduleItem,
-  ScheduleList
-} from "../../../shared/services/schedule/schedule.service";
+  ScheduleList,
+} from '../../../shared/services/schedule/schedule.service';
 
 @Component({
-  selector: "schedule-calendar",
-  styleUrls: ["schedule-calendar.component.scss"],
+  selector: 'schedule-calendar',
+  styleUrls: ['schedule-calendar.component.scss'],
   template: `
     <div class="calendar">
       <schedule-controls [selected]="selectedDay" (move)="onChange($event)">
@@ -28,7 +28,7 @@ import {
       >
       </schedule-section>
     </div>
-  `
+  `,
 })
 export class ScheduleCalendarComponent implements OnChanges {
   selectedDayIndex: number;
@@ -36,10 +36,10 @@ export class ScheduleCalendarComponent implements OnChanges {
   selectedWeek: Date;
 
   sections = [
-    { key: "morning", name: "Morning" },
-    { key: "lunch", name: "Lunch" },
-    { key: "evening", name: "Evening" },
-    { key: "snacks", name: "Snacks and Drinks" }
+    { key: 'morning', name: 'Morning' },
+    { key: 'lunch', name: 'Lunch' },
+    { key: 'evening', name: 'Evening' },
+    { key: 'snacks', name: 'Snacks and Drinks' },
   ];
 
   @Input()
@@ -105,7 +105,7 @@ export class ScheduleCalendarComponent implements OnChanges {
       assigned,
       section,
       day,
-      data
+      data,
     });
   }
 }

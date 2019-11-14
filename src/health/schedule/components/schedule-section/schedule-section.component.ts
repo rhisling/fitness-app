@@ -3,15 +3,15 @@ import {
   Input,
   Output,
   EventEmitter,
-  ChangeDetectionStrategy
-} from "@angular/core";
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
-import { ScheduleItem } from "../../../shared/services/schedule/schedule.service";
+import { ScheduleItem } from '../../../shared/services/schedule/schedule.service';
 
 @Component({
-  selector: "schedule-section",
+  selector: 'schedule-section',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ["schedule-section.component.scss"],
+  styleUrls: ['schedule-section.component.scss'],
   template: `
     <div class="schedule-section">
       <div class="schedule-section__bar">
@@ -44,7 +44,7 @@ import { ScheduleItem } from "../../../shared/services/schedule/schedule.service
         </ng-template>
       </div>
     </div>
-  `
+  `,
 })
 export class ScheduleSectionComponent {
   @Input()
@@ -61,7 +61,7 @@ export class ScheduleSectionComponent {
     this.select.emit({
       type,
       assigned,
-      data
+      data,
     });
   }
 }

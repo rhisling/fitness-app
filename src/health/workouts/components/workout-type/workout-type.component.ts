@@ -1,17 +1,17 @@
-import { ChangeDetectionStrategy, Component, forwardRef } from "@angular/core";
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { ChangeDetectionStrategy, Component, forwardRef } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 export const TYPE_CONTROL_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => WorkoutTypeComponent),
-  multi: true
+  multi: true,
 };
 
 @Component({
-  selector: "workout-type",
+  selector: 'workout-type',
   providers: [TYPE_CONTROL_ACCESSOR],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ["workout-type.component.scss"],
+  styleUrls: ['workout-type.component.scss'],
   template: `
     <div class="workout-type">
       <div
@@ -20,16 +20,16 @@ export const TYPE_CONTROL_ACCESSOR = {
         [class.active]="selector === value"
         (click)="setSelected(selector)"
       >
-        <img src="/img/{{ selector }}.svg" alt="" />
+        <img src="./assets/img/{{ selector }}.svg" alt="" />
         <p>
           {{ selector }}
         </p>
       </div>
     </div>
-  `
+  `,
 })
 export class WorkoutTypeComponent implements ControlValueAccessor {
-  selectors = ["strength", "endurance"];
+  selectors = ['strength', 'endurance'];
 
   value: string;
 
@@ -50,7 +50,7 @@ export class WorkoutTypeComponent implements ControlValueAccessor {
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    throw new Error("Method not implemented.");
+    throw new Error('Method not implemented.');
   }
 
   setSelected(selector: string) {

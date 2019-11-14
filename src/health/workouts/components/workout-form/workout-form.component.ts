@@ -5,21 +5,21 @@ import {
   Input,
   OnChanges,
   Output,
-  SimpleChanges
-} from "@angular/core";
-import { Workout } from "../../../shared/services/workouts/workouts.service";
+  SimpleChanges,
+} from '@angular/core';
+import { Workout } from '../../../shared/services/workouts/workouts.service';
 import {
   FormArray,
   FormBuilder,
   FormControl,
   FormControlName,
-  Validators
-} from "@angular/forms";
+  Validators,
+} from '@angular/forms';
 
 @Component({
-  selector: "workout-form",
+  selector: 'workout-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ["workout-form.component.scss"],
+  styleUrls: ['workout-form.component.scss'],
   template: `
     <div class="workout-form">
       <form [formGroup]="form">
@@ -111,7 +111,7 @@ import {
         </div>
       </form>
     </div>
-  `
+  `,
 })
 export class WorkoutFormComponent implements OnChanges {
   toggled = false;
@@ -130,17 +130,17 @@ export class WorkoutFormComponent implements OnChanges {
   remove: EventEmitter<Workout> = new EventEmitter<Workout>();
 
   form = this.fb.group({
-    name: ["", Validators.required],
-    type: "strength",
+    name: ['', Validators.required],
+    type: 'strength',
     strength: this.fb.group({
       reps: 0,
       sets: 0,
-      weight: 0
+      weight: 0,
     }),
     endurance: this.fb.group({
       distance: 0,
-      duration: 0
-    })
+      duration: 0,
+    }),
   });
 
   constructor(private fb: FormBuilder) {}
@@ -148,7 +148,7 @@ export class WorkoutFormComponent implements OnChanges {
   get placeholder() {
     return `
     e.g. ${
-      this.form.get("type").value === "strength" ? "Benchpress" : "Treadmill"
+      this.form.get('type').value === 'strength' ? 'Benchpress' : 'Treadmill'
     } `;
   }
 
@@ -160,11 +160,10 @@ export class WorkoutFormComponent implements OnChanges {
     }
   }
 
-
   get required() {
     return (
-      this.form.get("name").hasError("required") &&
-      this.form.get("name").touched
+      this.form.get('name').hasError('required') &&
+      this.form.get('name').touched
     );
   }
 
@@ -183,7 +182,6 @@ export class WorkoutFormComponent implements OnChanges {
   removeWorkout() {
     this.remove.emit(this.form.value);
   }
-
 
   toggle() {
     this.toggled = !this.toggled;

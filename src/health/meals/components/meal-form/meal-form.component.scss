@@ -25,7 +25,7 @@
   color: #fff;
   background: #d73a49;
   border-radius: 3px;
-  transition: all .2s ease-in-out;
+  transition: all 0.2s ease-in-out;
   &:hover {
     background: darken(#d73a49, 3%);
   }
@@ -95,7 +95,7 @@
     top: 1px;
     right: 1px;
     border-left: 1px solid #d1deeb;
-    transition: all .2s ease-in-out;
+    transition: all 0.2s ease-in-out;
     &:hover {
       background-color: darken(#eff4f9, 5%);
     }
@@ -160,7 +160,7 @@
       background: darken(#39a1e7, 5%);
     }
     &:disabled {
-      opacity: .4;
+      opacity: 0.4;
       cursor: not-allowed;
     }
     &--cancel {

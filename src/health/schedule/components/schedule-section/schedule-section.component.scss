@@ -17,16 +17,16 @@
     font-size: 16px;
     font-style: italic;
     transition: all 0.2s ease-in-out;
-    background: url(/img/plus.svg) no-repeat 8px 10px;
+    background: url('/assets/img/plus.svg') no-repeat 8px 10px;
     background-size: 24px 24px;
     &:first-child {
       border-bottom: 1px solid #c1cedb;
     }
     &.workout {
-      background-image: url(/img/workout.svg);
+      background-image: url(/assets/img/workout.svg);
     }
     &.food {
-      background-image: url(/img/food.svg);
+      background-image: url(/assets/img/food.svg);
     }
     &:hover {
       background-color: #f9f9f9;

@@ -56,7 +56,7 @@ export class ScheduleSectionComponent {
   @Output()
   select = new EventEmitter<any>();
 
-  onSelect(type: string, assigned: string[] = []) {
+  onSelect(type: string, assigned: any[] = []) {
     const data = this.section;
     this.select.emit({
       type,

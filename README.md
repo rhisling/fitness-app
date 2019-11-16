@@ -10,7 +10,7 @@ Run `ng build`
 
 ## App is deployed at
 
-`https://fitness-app-7f816.firebaseapp.com`
+[https://fitness-app-7f816.firebaseapp.com](https://fitness-app-7f816.firebaseapp.com)
 
 ## To use this app
 

@@ -1,10 +1,10 @@
-import { Injectable } from "@angular/core";
-import { AngularFireDatabase } from "@angular/fire/database";
+import { Injectable } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/database';
 
-import { Store } from "store";
-import { AuthService } from "../../../../auth/shared/services/auth/auth.service";
-import { Observable, of } from "rxjs";
-import { tap, map, filter } from "rxjs/operators";
+import { Store } from 'store';
+import { AuthService } from '../../../../auth/shared/services/auth/auth.service';
+import { Observable, of } from 'rxjs';
+import { tap, map, filter } from 'rxjs/operators';
 
 export interface Meal {
   name: string;
@@ -22,11 +22,11 @@ export class MealsService {
     .pipe(
       tap(next =>
         this.store.set(
-          "meals",
+          'meals',
           next.map(n => ({
             ...n.payload.val(),
             $key: n.payload.key,
-            $exists: n.payload.exists
+            $exists: n.payload.exists,
           }))
         )
       )
@@ -56,8 +56,10 @@ export class MealsService {
   }
 
   getMeal(key: string) {
-    if (!key) return of({});
-    return this.store.select<Meal[]>("meals").pipe(
+    if (!key) {
+      return of({});
+    }
+    return this.store.select<Meal[]>('meals').pipe(
       filter(Boolean),
       map((meals: Meal[]) => {
         return meals.find((meal: Meal) => meal.$key === key);

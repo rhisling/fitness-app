@@ -122,7 +122,6 @@ export class ScheduleService {
   }
 
   selectSection(event: any) {
-    console.log(`Selected section:  ${JSON.stringify(event)}`);
     this.section$.next(event);
   }
 
@@ -131,9 +130,6 @@ export class ScheduleService {
   }
 
   private updateSection(key: string, payload: ScheduleItem) {
-    console.log(
-      'In update section: ' + JSON.stringify(payload) + ' key:' + key
-    );
     delete payload.$key;
     return this.db.object(`schedule/${this.uid}/${key}`).update(payload);
   }

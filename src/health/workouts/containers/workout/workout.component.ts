@@ -65,7 +65,6 @@ export class WorkoutComponent implements OnInit, OnDestroy {
 
   async addWorkout(event: Workout) {
     await this.workoutsService.addWorkout(event);
-    console.log('workout added');
     this.backToWorkouts();
   }
 

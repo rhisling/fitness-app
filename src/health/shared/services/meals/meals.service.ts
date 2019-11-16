@@ -43,7 +43,6 @@ export class MealsService {
   }
 
   addMeal(meal: Meal) {
-    console.log(meal);
     return this.db.list(`meals/${this.uid}`).push(meal);
   }
 

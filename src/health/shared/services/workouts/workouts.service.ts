@@ -1,10 +1,10 @@
-import { Injectable } from "@angular/core";
-import { AngularFireDatabase } from "@angular/fire/database";
+import { Injectable } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/database';
 
-import { Store } from "store";
-import { AuthService } from "../../../../auth/shared/services/auth/auth.service";
-import { Observable, of } from "rxjs";
-import { tap, map, filter } from "rxjs/operators";
+import { Store } from 'store';
+import { AuthService } from '../../../../auth/shared/services/auth/auth.service';
+import { Observable, of } from 'rxjs';
+import { tap, map, filter } from 'rxjs/operators';
 
 export interface Workout {
   name: string;
@@ -24,11 +24,11 @@ export class WorkoutsService {
     .pipe(
       tap(next =>
         this.store.set(
-          "workouts",
+          'workouts',
           next.map(n => ({
             ...n.payload.val(),
             $key: n.payload.key,
-            $exists: n.payload.exists
+            $exists: n.payload.exists,
           }))
         )
       )
@@ -45,7 +45,6 @@ export class WorkoutsService {
   }
 
   addWorkout(workout: Workout) {
-    console.log(workout);
     return this.db.list(`workouts/${this.uid}`).push(workout);
   }
 
@@ -59,8 +58,7 @@ export class WorkoutsService {
 
   getWorkout(key: string) {
     if (!key) return of({});
-    return this.store.select<Workout[]>("workouts").pipe(
-      tap(next => console.log("In-tap:" + JSON.stringify(next))),
+    return this.store.select<Workout[]>('workouts').pipe(
       filter(Boolean),
       map((workouts: Workout[]) => {
         return workouts.find((workout: Workout) => workout.$key === key);

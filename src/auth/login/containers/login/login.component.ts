@@ -23,7 +23,6 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   async loginUser(event: FormGroup) {
-    console.log(event.value);
     const { email, password } = event.value;
     try {
       await this.authService.loginUser(email, password);

@@ -113,7 +113,6 @@ export class ScheduleService {
   }
 
   updateItems(items: string[]) {
-    console.log('Updating items:' + JSON.stringify(items));
     this.itemList$.next(items);
   }
 

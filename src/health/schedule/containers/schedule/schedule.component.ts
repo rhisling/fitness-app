@@ -1,23 +1,23 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { Observable } from "rxjs";
-import { Subscription } from "rxjs";
-import { Store } from "store";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { Store } from 'store';
 import {
   ScheduleItem,
-  ScheduleService
-} from "../../../shared/services/schedule/schedule.service";
+  ScheduleService,
+} from '../../../shared/services/schedule/schedule.service';
 import {
   Meal,
-  MealsService
-} from "../../../shared/services/meals/meals.service";
+  MealsService,
+} from '../../../shared/services/meals/meals.service';
 import {
   Workout,
-  WorkoutsService
-} from "../../../shared/services/workouts/workouts.service";
+  WorkoutsService,
+} from '../../../shared/services/workouts/workouts.service';
 
 @Component({
-  selector: "schedule",
-  styleUrls: ["schedule.component.scss"],
+  selector: 'schedule',
+  styleUrls: ['schedule.component.scss'],
   template: `
     <div class="schedule">
       <schedule-calendar
@@ -35,7 +35,7 @@ import {
         (cancel)="closeAssign()"
       ></schedule-assign>
     </div>
-  `
+  `,
 })
 export class ScheduleComponent implements OnInit, OnDestroy {
   open = false;
@@ -54,10 +54,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.date$ = this.store.select<Date>("date");
-    this.schedule$ = this.store.select<ScheduleItem>("schedule");
-    this.selected$ = this.store.select("selected");
-    this.list$ = this.store.select("list");
+    this.date$ = this.store.select<Date>('date');
+    this.schedule$ = this.store.select<ScheduleItem>('schedule');
+    this.selected$ = this.store.select('selected');
+    this.list$ = this.store.select('list');
 
     this.subscriptions = [
       this.scheduleService.schedule$.subscribe(),
@@ -65,7 +65,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       this.mealService.meals$.subscribe(),
       this.workoutService.workouts$.subscribe(),
       this.scheduleService.list$.subscribe(),
-      this.scheduleService.items$.subscribe()
+      this.scheduleService.items$.subscribe(),
     ];
   }
 
@@ -78,7 +78,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   changeSection(event: any) {
-    console.log(event);
     this.open = true;
     this.scheduleService.selectSection(event);
   }
@@ -86,7 +85,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   assignItem(items: string[]) {
     this.scheduleService.updateItems(items);
     this.closeAssign();
-
   }
 
   closeAssign() {

@@ -1,11 +1,18 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, Subject } from "rxjs";
-import { Store } from "store";
-import { map, tap, switchMap, withLatestFrom } from "rxjs/operators";
-import { Meal } from "../meals/meals.service";
-import { Workout } from "../workouts/workouts.service";
-import { AngularFireDatabase } from "@angular/fire/database";
-import { AuthService } from "../../../../auth/shared/services/auth/auth.service";
+import { Injectable } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/database';
+
+import { Store } from 'store';
+
+import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs';
+
+import { tap, map, switchMap, withLatestFrom } from 'rxjs/operators';
+
+import { AuthService } from '../../../../auth/shared/services/auth/auth.service';
+
+import { Meal } from '../meals/meals.service';
+import { Workout } from '../workouts/workouts.service';
 
 export interface ScheduleItem {
   meals: Meal[];
@@ -19,7 +26,7 @@ export interface ScheduleList {
   morning?: ScheduleItem;
   lunch?: ScheduleItem;
   evening?: ScheduleItem;
-  snack?: ScheduleItem;
+  snacks?: ScheduleItem;
   [key: string]: any;
 }
 
@@ -37,11 +44,12 @@ export class ScheduleService {
         workouts: null,
         meals: null,
         section: section.section,
-        timestamp: new Date(section.day).getTime()
+        timestamp: new Date(section.day).getTime(),
       };
+
       const payload = {
         ...(id ? section.data : defaults),
-        ...items
+        ...items,
       };
       if (id) {
         return this.updateSection(id, payload);
@@ -51,85 +59,93 @@ export class ScheduleService {
     })
   );
 
-  selected$ = this.section$.pipe(tap(next => this.store.set("selected", next)));
+  selected$ = this.section$.pipe(
+    tap((next: any) => this.store.set('selected', next))
+  );
 
   list$ = this.section$.pipe(
     map((value: any) => this.store.value[value.type]),
-    tap(next => this.store.set("list", next))
+    tap((next: any) => this.store.set('list', next))
   );
 
-  schedule$: Observable<ScheduleList> = this.date$.pipe(
-    tap(next => {
-      console.log("next:" + next);
-      this.store.set("date", next);
-    }),
+  schedule$: Observable<ScheduleItem[]> = this.date$.pipe(
+    tap((next: any) => this.store.set('date', next)),
     map((day: any) => {
       const startAt = new Date(
         day.getFullYear(),
         day.getMonth(),
         day.getDate()
       ).getTime();
+
       const endAt =
         new Date(
           day.getFullYear(),
           day.getMonth(),
           day.getDate() + 1
         ).getTime() - 1;
-      console.log(`startAt: ${startAt} - endAt:${endAt}`);
+
       return { startAt, endAt };
     }),
-    switchMap(({ startAt, endAt }) => this.getSchedule(startAt, endAt)),
+    switchMap(({ startAt, endAt }: any) => this.getSchedule(startAt, endAt)),
     map((data: any) => {
       const mapped: ScheduleList = {};
-      console.log("in map", data);
       for (const prop of data) {
-        if (!mapped[prop.section]) {
-          mapped[prop.section] = prop;
+        if (!mapped[prop.payload.val().section]) {
+          mapped[prop.payload.val().section] = {
+            ...prop.payload.val(),
+            $key: prop.key,
+          };
         }
       }
       return mapped;
     }),
-    tap(next => this.store.set("schedule", next))
+    tap((next: any) => this.store.set('schedule', next))
   );
 
   constructor(
     private store: Store,
-    private db: AngularFireDatabase,
-    private authService: AuthService
+    private authService: AuthService,
+    private db: AngularFireDatabase
   ) {}
+
+  get uid() {
+    return this.authService.user.uid;
+  }
+
+  updateItems(items: string[]) {
+    console.log('Updating items:' + JSON.stringify(items));
+    this.itemList$.next(items);
+  }
 
   updateDate(date: Date) {
     this.date$.next(date);
   }
 
   selectSection(event: any) {
+    console.log(`Selected section:  ${JSON.stringify(event)}`);
     this.section$.next(event);
   }
 
-  get uid() {
-    return this.authService.user.uid;
+  private createSection(payload: ScheduleItem) {
+    return this.db.list(`schedule/${this.uid}`).push(payload);
+  }
+
+  private updateSection(key: string, payload: ScheduleItem) {
+    console.log(
+      'In update section: ' + JSON.stringify(payload) + ' key:' + key
+    );
+    delete payload.$key;
+    return this.db.object(`schedule/${this.uid}/${key}`).update(payload);
   }
 
   private getSchedule(startAt: number, endAt: number) {
     return this.db
       .list(`schedule/${this.uid}`, ref =>
         ref
-          .orderByChild("timestamp")
+          .orderByChild('timestamp')
           .startAt(startAt)
           .endAt(endAt)
       )
-      .valueChanges();
-  }
-
-  updateItems(items: string[]) {
-    this.itemList$.next(items);
-  }
-
-  private updateSection(key: string, payload: ScheduleItem) {
-    return this.db.object(`schedule/${this.uid}/${key}`).update(payload);
-  }
-
-  private createSection(payload: string) {
-    return this.db.list(`schedule/${this.uid}`).push(payload);
+      .snapshotChanges();
   }
 }
